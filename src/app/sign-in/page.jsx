@@ -1,25 +1,31 @@
-"use client"
-import { useState } from "react"
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { MessageSquare } from "lucide-react"
-
+"use client";
+import { useState } from "react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { MessageSquare } from "lucide-react";
 export default function SignInPage() {
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    setIsLoading(true)
+    e.preventDefault();
+    setIsLoading(true);
     // Simulate API call
     setTimeout(() => {
-      setIsLoading(false)
+      setIsLoading(false);
       // Redirect would happen here after successful login
-    }, 1500)
-  }
+    }, 1500);
+  };
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-zinc-950 p-4">
@@ -30,7 +36,9 @@ export default function SignInPage() {
 
       <Card className="w-full max-w-md border-zinc-800 bg-zinc-900 text-white">
         <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl font-bold text-center">Sign in</CardTitle>
+          <CardTitle className="text-2xl font-bold text-center">
+            Sign in
+          </CardTitle>
           <CardDescription className="text-zinc-400 text-center">
             Enter your email and password to access your account
           </CardDescription>
@@ -50,7 +58,10 @@ export default function SignInPage() {
             <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <Label htmlFor="password">Password</Label>
-                <Link href="/forgot-password" className="text-sm text-purple-400 hover:text-purple-300">
+                <Link
+                  href="/forgot-password"
+                  className="text-sm text-purple-400 hover:text-purple-300"
+                >
                   Forgot password?
                 </Link>
               </div>
@@ -58,10 +69,10 @@ export default function SignInPage() {
                 id="password"
                 type="password"
                 required
-                className="border-zinc-700 bg-zinc-800 text-white placeholder:text-zinc-500 focus-visible:ring-purple-500"
+                className="border-zinc-700 bg-zinc-800  text-white placeholder:text-zinc-500 focus-visible:ring-purple-500"
               />
             </div>
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center mb-4 space-x-2">
               <Checkbox
                 id="remember"
                 className="border-zinc-700 data-[state=checked]:bg-purple-600 data-[state=checked]:border-purple-600"
@@ -72,12 +83,19 @@ export default function SignInPage() {
             </div>
           </CardContent>
           <CardFooter className="flex flex-col space-y-4">
-            <Button type="submit" className="w-full bg-purple-700 hover:bg-purple-600 text-white" disabled={isLoading}>
+            <Button
+              type="submit"
+              className="w-full bg-purple-700 hover:bg-purple-600 text-white"
+              disabled={isLoading}
+            >
               {isLoading ? "Signing in..." : "Sign in"}
             </Button>
             <div className="text-center text-sm text-zinc-400">
               Don't have an account?{" "}
-              <Link href="/sign-up" className="text-purple-400 hover:text-purple-300">
+              <Link
+                href="/sign-up"
+                className="text-purple-400 hover:text-purple-300"
+              >
                 Sign up
               </Link>
             </div>
@@ -85,5 +103,5 @@ export default function SignInPage() {
         </form>
       </Card>
     </div>
-  )
+  );
 }
