@@ -13,7 +13,7 @@ export const sendEmail = async ({ to, text }) => {
     });
 
     const info = await transporter.sendMail({
-      from: `"Postify" <${process.env.SMTP_USER}>`,
+      from: `"Whisperly" <${process.env.SMTP_USER}>`,
       to,
       subject: "Otp for Verification ",
       text,
