@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
@@ -14,12 +14,41 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Progress } from "@/components/ui/progress";
-import { MessageSquare } from "lucide-react";
+import { MessageSquare , Loader2} from "lucide-react";
 
 export default function SignUpPage() {
+  const [username, setUsername] = useState("");
+  const [isCheckingUsername, setIsCheckingUsername] = useState(false);
+  const [usernameMessage, setUsernameMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [password, setPassword] = useState("");
   const [passwordStrength, setPasswordStrength] = useState(0);
+
+  const checkUsername = async (username) => {
+    setIsCheckingUsername(true);
+    try {
+      const res = await fetch(`/api/auth/check-username?username=${username}`);
+      const data = await res.json();
+      if (data.success) {
+        setUsernameMessage("Username available");
+      } else {
+        setUsernameMessage(data.message);
+      }
+    } catch (error) {
+      setUsernameMessage("Error checking username");
+    } finally {
+      setIsCheckingUsername(false);
+    }
+  };
+
+  useEffect(() => {
+    if (username) {
+      const timer = setTimeout(() => checkUsername(username), 500);
+      return () => clearTimeout(timer);
+    } else {
+      setUsernameMessage("");
+    }
+  }, [username]);
 
   const handlePasswordChange = (e) => {
     const newPassword = e.target.value;
@@ -60,7 +89,7 @@ export default function SignUpPage() {
   };
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-zinc-950 p-4">
+    <div className="flex flex-col items-center justify-center bg-zinc-950 p-4">
       <Link href="/" className="mb-8 flex items-center gap-2">
         <MessageSquare className="h-6 w-6 text-purple-500" />
         <span className="text-xl font-bold text-white">Whisperly</span>
@@ -77,24 +106,39 @@ export default function SignUpPage() {
         </CardHeader>
         <form onSubmit={handleSubmit}>
           <CardContent className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="firstName">First name</Label>
+                <Label htmlFor="fullName">Full name</Label>
                 <Input
-                  id="firstName"
+                  id="fullName"
+                  type="text"
                   placeholder="John"
                   required
                   className="border-zinc-700 bg-zinc-800 text-white placeholder:text-zinc-500 focus-visible:ring-purple-500"
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="lastName">Last name</Label>
+                <Label htmlFor="username">Username</Label>
                 <Input
-                  id="lastName"
-                  placeholder="Doe"
+                  id="username"
+                  placeholder="johndoe"
                   required
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
                   className="border-zinc-700 bg-zinc-800 text-white placeholder:text-zinc-500 focus-visible:ring-purple-500"
                 />
+                {isCheckingUsername && <Loader2 className="animate-spin" />}
+                {!isCheckingUsername && usernameMessage && (
+                  <p
+                    className={`text-sm ${
+                      usernameMessage == "Username available"
+                        ? "text-green-500"
+                        : "text-red-500"
+                    }`}
+                  >
+                    {usernameMessage}
+                  </p>
+                )}
               </div>
             </div>
             <div className="space-y-2">
@@ -150,34 +194,11 @@ export default function SignUpPage() {
                 className="border-zinc-700 bg-zinc-800 text-white placeholder:text-zinc-500 focus-visible:ring-purple-500"
               />
             </div>
-            <div className="flex items-center space-x-2">
-              <Checkbox
-                id="terms"
-                required
-                className="border-zinc-700 data-[state=checked]:bg-purple-600 data-[state=checked]:border-purple-600"
-              />
-              <Label htmlFor="terms" className="text-sm font-normal">
-                I agree to the{" "}
-                <Link
-                  href="/terms"
-                  className="text-purple-400 hover:text-purple-300"
-                >
-                  terms of service
-                </Link>{" "}
-                and{" "}
-                <Link
-                  href="/privacy"
-                  className="text-purple-400 hover:text-purple-300"
-                >
-                  privacy policy
-                </Link>
-              </Label>
-            </div>
           </CardContent>
           <CardFooter className="flex flex-col space-y-4">
             <Button
               type="submit"
-              className="w-full bg-purple-700 hover:bg-purple-600 text-white"
+              className="w-full bg-purple-700 mt-4 hover:bg-purple-600 text-white"
               disabled={isLoading}
             >
               {isLoading ? "Creating account..." : "Create account"}

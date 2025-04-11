@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { MessageSquare } from "lucide-react";
-import { Button } from "./ui/button";
 const Navbar = () => {
   return (
     <header className="sticky top-0 z-50 p-2 w-full border-b border-zinc-800 bg-zinc-950/80 backdrop-blur-sm">
