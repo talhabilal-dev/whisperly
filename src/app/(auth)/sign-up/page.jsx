@@ -10,11 +10,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Progress } from "@/components/ui/progress";
-import { MessageSquare , Loader2} from "lucide-react";
+import { MessageSquare, Loader2 } from "lucide-react";
+import { useDebounce } from "@/hooks/debounce";
+import { toast } from "sonner";
 
 export default function SignUpPage() {
   const [username, setUsername] = useState("");
@@ -41,15 +42,15 @@ export default function SignUpPage() {
     }
   };
 
+  const debouncedUsername = useDebounce(username, 500);
+
   useEffect(() => {
-    if (username) {
-      const timer = setTimeout(() => checkUsername(username), 500);
-      return () => clearTimeout(timer);
+    if (debouncedUsername) {
+      checkUsername(debouncedUsername);
     } else {
       setUsernameMessage("");
     }
-  }, [username]);
-
+  }, [debouncedUsername]);
   const handlePasswordChange = (e) => {
     const newPassword = e.target.value;
     setPassword(newPassword);
@@ -80,7 +81,53 @@ export default function SignUpPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
+
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+    const fullName = e.target.fullName.value;
+    const username = e.target.username.value;
+
+    const confirmPassword = e.target.confirmPassword.value;
+    if (password !== confirmPassword) {
+      setIsLoading(false);
+      toast.error("Passwords do not match", {
+        description: "Please make sure your passwords match.",
+        // variant: "destructive",
+      });
+      return;
+    }
+
     // Simulate API call
+
+    // In a real application, you would send the data to your backend here
+
+    const response = await fetch("/api/auth/sign-up", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password, fullName, username }), // Replace with your data
+    });
+
+    if (!response.ok) {
+      setIsLoading(false);
+      toast.error("Error creating account", {
+        description: "Please try again later.",
+        // variant: "destructive",
+      });
+    }
+
+    const data = await response.json();
+    if (!data.success) {
+      setIsLoading(false);
+      toast.error("Error creating account", {
+        description: data.message,
+        // variant: "destructive",
+      });
+
+      return;
+    }
+
     setTimeout(() => {
       setIsLoading(false);
       // Redirect to OTP verification would happen here
@@ -180,7 +227,7 @@ export default function SignUpPage() {
                   <Progress
                     value={passwordStrength}
                     className="h-1 bg-zinc-700"
-                    indicatorClassName={getStrengthColor()}
+                    indicatorclassname={getStrengthColor()}
                   />
                 </div>
               )}
