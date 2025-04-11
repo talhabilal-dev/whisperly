@@ -1,6 +1,7 @@
-import connectToDatabase from "@/lib/db";
+import { connectToDatabase } from "@/lib/db";
 import User from "@/models/user.model";
 import { sendEmail } from "@/lib/email";
+import bcrypt from "bcryptjs";
 
 export async function POST(req) {
   try {
@@ -56,7 +57,7 @@ export async function POST(req) {
       if (!existingUser.isVerified) {
         existingUser.verifyCodeExpires = expiryDate;
         existingUser.fullName = fullName;
-        const hashedPassword = await argon.hash(password);
+        const hashedPassword = await bcrypt.hash(password, 10);
         existingUser.verifyCodeExpires = expiryDate;
         existingUser.password = hashedPassword;
         existingUser.username = username;
@@ -84,7 +85,7 @@ export async function POST(req) {
         );
       }
     } else {
-      const hashedPassword = await argon.hash(password);
+      const hashedPassword = await bcrypt.hash(password, 10);
       const user = await User.create({
         fullName,
         email,
