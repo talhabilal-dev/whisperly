@@ -14,7 +14,6 @@ import {
 export default function Home() {
   return (
     <div className="flex min-h-screen flex-col">
-
       <main className="flex-1">
         {/* Hero Section */}
         <section className="relative overflow-hidden gradient-bg py-20 md:py-32">
@@ -255,9 +254,7 @@ export default function Home() {
         </section>
 
         {/* CTA Section */}
-
       </main>
-
     </div>
   );
 }

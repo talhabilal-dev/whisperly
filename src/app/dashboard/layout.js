@@ -8,12 +8,12 @@ export default function DashboardLayout({ children }) {
       <header className="sticky top-0 z-50 w-full border-b border-zinc-800 bg-zinc-950/80 backdrop-blur-sm">
         <div className="container flex h-16 items-center justify-between">
           <div className="flex items-center gap-2">
-            <Link href="/" className="flex items-center gap-2">
+            <Link href="/" className="flex items-center gap-2 p-4">
               <MessageSquare className="h-6 w-6 text-purple-500" />
               <span className="text-xl font-bold">Whisperly</span>
             </Link>
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4 p-4">
             <Link href="/dashboard/notifications" className="relative">
               <Bell className="h-5 w-5 text-zinc-400 hover:text-white transition-colors" />
               <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-purple-600 text-[10px]">

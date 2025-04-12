@@ -44,7 +44,7 @@ const notifications = [
 export default function NotificationsPage() {
   return (
     <div className="space-y-8">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center overflow-hidden justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold">Notifications</h1>
           <p className="text-zinc-400">
@@ -105,24 +105,6 @@ export default function NotificationsPage() {
               </div>
             ))}
           </div>
-        </CardContent>
-      </Card>
-
-      <Card className="border-zinc-800 bg-zinc-900">
-        <CardHeader>
-          <CardTitle>Notification Settings</CardTitle>
-          <CardDescription className="text-zinc-400">
-            Manage your notification preferences
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Button
-            variant="outline"
-            className="border-zinc-700 text-zinc-300 hover:bg-zinc-800"
-          >
-            <Settings className="mr-2 h-4 w-4" />
-            Configure notifications
-          </Button>
         </CardContent>
       </Card>
     </div>
