@@ -219,21 +219,20 @@ export default function Dashboard() {
             </TabsList>
           </Tabs>
         </CardHeader>
-        <CardContent className="p-0">
-          <div className="divide-y divide-zinc-800">
+        <CardContent className="p-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {sortedMessages.length > 0 ? (
               sortedMessages.map((message) => (
                 <div
                   key={message.id}
-                  className={`p-4 ${
+                  className={`p-4 rounded-lg border ${
                     !message.isRead
-                      ? "bg-zinc-800/30 border-l-2 border-purple-600"
-                      : ""
+                      ? "bg-zinc-800/30 border-purple-600"
+                      : "border-zinc-800"
                   }`}
                 >
-                  <div className="flex justify-between gap-4">
-                    <div className="space-y-1">
-                      <p className="text-zinc-300">{message.content}</p>
+                  <div className="flex flex-col h-full">
+                    <div className="flex justify-between gap-2 mb-2">
                       <div className="flex items-center gap-2 text-xs text-zinc-500">
                         <span>Anonymous</span>
                         <span>•</span>
@@ -244,38 +243,64 @@ export default function Dashboard() {
                           </Badge>
                         )}
                       </div>
-                    </div>
-                    <div>
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            className="text-zinc-400 hover:text-white hover:bg-zinc-800"
-                          >
-                            <MoreVertical className="h-4 w-4" />
-                          </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent
-                          align="end"
-                          className="border-zinc-700 bg-zinc-800 text-white"
+                      <div className="flex items-center gap-1">
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="h-7 w-7 text-zinc-400 hover:text-white hover:bg-zinc-800"
+                          onClick={() => {
+                            // This would normally call an API to delete the message
+                            alert(`Message ${message.id} would be deleted`);
+                          }}
                         >
-                          <DropdownMenuItem className="hover:bg-zinc-700 cursor-pointer">
-                            <ThumbsUp className="mr-2 h-4 w-4" />
-                            <span>Thank sender</span>
-                          </DropdownMenuItem>
-                          <DropdownMenuItem className="hover:bg-zinc-700 cursor-pointer">
-                            <Copy className="mr-2 h-4 w-4" />
-                            <span>Copy message</span>
-                          </DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          >
+                            <path d="M3 6h18"></path>
+                            <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
+                            <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+                          </svg>
+                        </Button>
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className="h-7 w-7 text-zinc-400 hover:text-white hover:bg-zinc-800"
+                            >
+                              <MoreVertical className="h-4 w-4" />
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent
+                            align="end"
+                            className="border-zinc-700 bg-zinc-800 text-white"
+                          >
+                            <DropdownMenuItem className="hover:bg-zinc-700 cursor-pointer">
+                              <ThumbsUp className="mr-2 h-4 w-4" />
+                              <span>Thank sender</span>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem className="hover:bg-zinc-700 cursor-pointer">
+                              <Copy className="mr-2 h-4 w-4" />
+                              <span>Copy message</span>
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </div>
                     </div>
+                    <p className="text-zinc-300 flex-grow">{message.content}</p>
                   </div>
                 </div>
               ))
             ) : (
-              <div className="p-8 text-center">
+              <div className="col-span-2 p-8 text-center">
                 <p className="text-zinc-400">No messages found</p>
               </div>
             )}
