@@ -218,34 +218,36 @@ export default function FeedbackPage({ params }) {
         <span className="text-xl font-bold text-white">Whisperly</span>
       </Link>
 
-      <Card className="w-full max-w-md border-zinc-800 bg-zinc-900 text-white">
-        <CardHeader className="space-y-1">
-          <div className="flex flex-col items-center">
-            <div className="h-20 w-20 rounded-full bg-purple-700 flex items-center justify-center mb-4">
+      <Card className="w-full max-w-2xl border-zinc-800 bg-zinc-900 text-white">
+        <CardHeader className="space-y-1 pb-4">
+          <div className="flex items-center gap-4">
+            <div className="h-12 w-12 rounded-full bg-purple-700 flex items-center justify-center">
               {userData.profileImage ? (
                 <img
                   src={userData.profileImage || "/placeholder.svg"}
                   alt={userData.displayName}
-                  className="h-20 w-20 rounded-full object-cover"
+                  className="h-12 w-12 rounded-full object-cover"
                 />
               ) : (
-                <span className="text-2xl font-bold">
+                <span className="text-lg font-bold">
                   {userData.displayName.charAt(0)}
                 </span>
               )}
             </div>
-            <CardTitle className="text-2xl font-bold">
-              {userData.displayName}
-            </CardTitle>
-            <CardDescription className="text-zinc-400 text-center">
-              Send anonymous feedback
-            </CardDescription>
+            <div className="text-left">
+              <CardTitle className="text-xl font-bold">
+                {userData.displayName}
+              </CardTitle>
+              <CardDescription className="text-zinc-400">
+                Send anonymous feedback
+              </CardDescription>
+            </div>
           </div>
         </CardHeader>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <div className="px-6">
-            <TabsList className="grid w-full grid-cols-2 bg-zinc-800">
+            <TabsList className="grid w-full grid-cols-2 bg-zinc-800 h-9">
               <TabsTrigger
                 value="direct"
                 className="data-[state=active]:bg-purple-700"
@@ -263,7 +265,7 @@ export default function FeedbackPage({ params }) {
 
           <TabsContent value="direct" className="mt-0">
             <form onSubmit={handleSubmit}>
-              <CardContent className="space-y-4 pt-6">
+              <CardContent className="space-y-3 pt-4">
                 {error && (
                   <Alert
                     variant="destructive"
@@ -281,7 +283,7 @@ export default function FeedbackPage({ params }) {
                   </h3>
                   <Textarea
                     placeholder="Type your anonymous message here..."
-                    className="min-h-[150px] border-zinc-700 bg-zinc-800 text-white placeholder:text-zinc-500 focus-visible:ring-purple-500"
+                    className="min-h-[120px] border-zinc-700 bg-zinc-800 text-white placeholder:text-zinc-500 focus-visible:ring-purple-500"
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
                   />
@@ -349,7 +351,7 @@ export default function FeedbackPage({ params }) {
           </TabsContent>
 
           <TabsContent value="ai-assisted" className="mt-0">
-            <CardContent className="space-y-6 pt-6">
+            <CardContent className="space-y-4 pt-4">
               <div className="space-y-4">
                 <div className="flex items-center gap-2">
                   <Sparkles className="h-5 w-5 text-purple-400" />
@@ -428,7 +430,7 @@ export default function FeedbackPage({ params }) {
                       {generatedQuestions.map((question, index) => (
                         <div
                           key={index}
-                          className="p-3 rounded-md border border-zinc-700 bg-zinc-800 hover:border-purple-600 cursor-pointer transition-colors"
+                          className="p-2 rounded-md border border-zinc-700 bg-zinc-800 hover:border-purple-600 cursor-pointer transition-colors"
                           onClick={() => selectQuestion(question)}
                         >
                           <div className="flex justify-between items-center">
