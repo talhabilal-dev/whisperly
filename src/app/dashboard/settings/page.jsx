@@ -14,6 +14,18 @@ import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import { toast } from "sonner";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 export default function SettingsPage() {
   const [emailNotifications, setEmailNotifications] = useState(true);
@@ -26,7 +38,17 @@ export default function SettingsPage() {
     setTimeout(() => {
       setIsLoading(false);
       // Would normally show a toast notification here
-      alert("Settings saved successfully!");
+
+      toast.success("Settings saved successfully!", {
+        duration: 3000,
+        description: "Your changes have been saved.",
+        action: {
+          label: "Ok",
+          onClick: () => {
+            // Undo action logic here
+          },
+        },
+      });
     }, 1000);
   };
 
@@ -162,12 +184,32 @@ export default function SettingsPage() {
                 your data will be permanently removed.
               </p>
               <div className="mt-2">
-                <Button
-                  variant="destructive"
-                  className="bg-red-600 hover:bg-red-700"
-                >
-                  Delete account
-                </Button>
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <Button
+                      variant="destructive"
+                      className="w-28 bg-red-700 hover:bg-red-600 cursor-pointer"
+                    >
+                      Delete account
+                    </Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>
+                        Are you absolutely sure?
+                      </AlertDialogTitle>
+                      <AlertDialogDescription>
+                        This action cannot be undone. This will permanently
+                        delete your account and remove your data from our
+                        servers.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <AlertDialogAction>Continue</AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
               </div>
             </div>
           </div>
