@@ -11,6 +11,7 @@ export async function POST() {
       subject: "Hello world",
       react: EmailTemplate({ firstName: "John" }),
     });
+    
 
     if (error) {
       return Response.json({ error }, { status: 500 });
