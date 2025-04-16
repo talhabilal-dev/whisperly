@@ -33,6 +33,10 @@ const userSchema = new mongoose.Schema(
       type: Date,
       required: true,
     },
+    isForgetPasswordVerified: {
+      type: Boolean,
+      default: false,
+    },
     isAcceptingMessages: {
       type: Boolean,
       default: true,

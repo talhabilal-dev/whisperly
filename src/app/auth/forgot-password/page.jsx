@@ -60,12 +60,19 @@ export default function ForgotPasswordPage() {
     setError(null);
     setIsLoading(true);
 
-    // Simulate API call to check if email exists
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      const response = await fetch("/api/forgot-password/request-reset-code", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
+      });
 
-      // For demo purposes, we'll assume all emails exist
-      // In a real app, this would check against your database
+      if (!response.ok) {
+        const errorData = await response.json();
+        setError(errorData.error);
+      }
 
       setCurrentStep(2);
       setProgress(40);
@@ -136,7 +143,21 @@ export default function ForgotPasswordPage() {
 
     // Simulate API call to verify OTP
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      const response = await fetch("/api/forgot-password/verify-reset-code", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          code: otp.join(""),
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        setError(errorData.error);
+      }
 
       // For demo purposes, we'll assume all OTPs are valid
       // In a real app, this would verify against your database
