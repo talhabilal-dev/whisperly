@@ -14,17 +14,40 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { MessageSquare } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
+import { signInSchema } from "@/schemas/signInSchema";
+import { toast } from "sonner";
+
 export default function SignInPage() {
   const [isLoading, setIsLoading] = useState(false);
+
+  const router = useRouter();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    // Simulate API call
-    setTimeout(() => {
-      setIsLoading(false);
-      // Redirect would happen here after successful login
-    }, 1500);
+
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+
+    const remember = e.target.remember.checked;
+    const validation = signInSchema.safeParse({ email, password });
+
+    const result = await signIn("credentials", {
+      email,
+      password,
+      redirect: false, // Keep this false so you can handle it manually
+    });
+
+    setIsLoading(false);
+
+    if (result?.error) {
+      toast.error(result.error);
+    } else {
+      toast.success("Sign in successful!");
+      router.push("/dashboard");
+    }
   };
 
   return (
@@ -49,6 +72,7 @@ export default function SignInPage() {
               <Label htmlFor="email">Email</Label>
               <Input
                 id="email"
+                name="email"
                 type="email"
                 placeholder="m@example.com"
                 required
@@ -68,6 +92,8 @@ export default function SignInPage() {
               <Input
                 id="password"
                 type="password"
+                name="password"
+                placeholder="••••••••"
                 required
                 className="border-zinc-700 bg-zinc-800  text-white placeholder:text-zinc-500 focus-visible:ring-purple-500"
               />

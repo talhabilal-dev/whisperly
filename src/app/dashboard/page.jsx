@@ -28,6 +28,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Copy, MoreVertical, ThumbsUp, Filter, Share2 } from "lucide-react";
 
+
 // Mock data for messages
 const messages = [
   {

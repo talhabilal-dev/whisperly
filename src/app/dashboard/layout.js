@@ -1,6 +1,9 @@
+"use client";
 import Link from "next/link";
 import { MessageSquare, User, Settings, LogOut, Bell } from "lucide-react";
-
+import { signOut } from "next-auth/react";
+import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 export default function DashboardLayout({ children }) {
   return (
     <div className="min-h-screen bg-zinc-950 text-white">
@@ -50,13 +53,20 @@ export default function DashboardLayout({ children }) {
               <Settings className="h-5 w-5" />
               <span>Settings</span>
             </Link>
-            <Link
+            {/* <Link
               href="/sign-in"
               className="flex items-center gap-2 rounded-lg px-3 py-2 text-zinc-400 hover:text-white transition-colors"
+            > */}
+            <LogOut className="h-5 w-5" />
+
+            <Button
+              onClick={() => signOut({ callbackUrl: "/auth/sign-in" })}
+              variant="outline"
+              className="bg-red-600 hover:bg-red-500 text-white"
             >
-              <LogOut className="h-5 w-5" />
-              <span>Sign out</span>
-            </Link>
+              Sign Out
+            </Button>
+            {/* </Link> */}
           </nav>
         </aside>
 
