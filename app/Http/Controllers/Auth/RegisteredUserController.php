@@ -32,7 +32,7 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
+            'email' => 'required|string|lowercase|email|max:255|unique:' . User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
@@ -47,5 +47,31 @@ class RegisteredUserController extends Controller
         Auth::login($user);
 
         return redirect(route('dashboard', absolute: false));
+    }
+
+    public function checkUsername(Request $request)
+    {
+        $username = $request->query('username');
+
+        if (!$username) {
+            return response()->json([
+                'available' => false,
+                'message' => 'Username is required.'
+            ], 400);
+        }
+
+        $exists = User::where('username', $username)->exists();
+
+        if ($exists) {
+            return response()->json([
+                'available' => false,
+                'message' => 'Username is already taken.'
+            ]);
+        } else {
+            return response()->json([
+                'available' => true,
+                'message' => 'Username is available!'
+            ]);
+        }
     }
 }

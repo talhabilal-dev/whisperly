@@ -15,12 +15,12 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
     return (
         <>
             <Head title="Welcome" />
-            <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center">
+            <div className="min-h-screen bg-zinc-900 flex flex-col items-center justify-center">
                 <div className="text-center">
-                    <h1 className="text-4xl font-bold text-gray-800 mb-4">
+                    <h1 className="text-4xl font-bold text-gray-200 mb-4">
                         Welcome to Whisperly
                     </h1>
-                    <p className="text-lg text-gray-600 mb-6">
+                    <p className="text-lg text-gray-100 mb-6">
                         Your Laravel version is {laravelVersion} and PHP version
                         is {phpVersion}.
                     </p>
